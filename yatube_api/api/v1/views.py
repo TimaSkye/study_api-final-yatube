@@ -30,20 +30,21 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrReadOnly,)
 
+    # Flake8 не пропустил моржовый оператор =((
     def get_queryset(self):
-        return (post := get_object_or_404(
+        post = get_object_or_404(
             Post.objects.select_related('author', 'group'),
             pk=self.kwargs.get('post_id')
-        )).comments.all()
-
-    def perform_create(self, serializer):
-        serializer.save(
-            author=self.request.user,
-            post=(post := get_object_or_404(
-                Post.objects.select_related('author', 'group'),
-                pk=self.kwargs.get('post_id')
-            ))
         )
+        return post.comments.all()
+
+    # И здесь тоже =((
+    def perform_create(self, serializer):
+        post = get_object_or_404(
+            Post.objects.select_related('author', 'group'),
+            pk=self.kwargs.get('post_id')
+        )
+        serializer.save(author=self.request.user, post=post)
 
 
 class FollowViewSet(viewsets.ModelViewSet):
