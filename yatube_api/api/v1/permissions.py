@@ -8,14 +8,9 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        # Разрешаем безопасные методы всем, остальные — аутентифицированным
-        return (
-            request.method in permissions.SAFE_METHODS
-            or request.user.is_authenticated
-        )
+        return True
 
     def has_object_permission(self, request, view, obj):
-        # Разрешаем безопасные методы всем, изменение — только автору объекта
         return (
             request.method in permissions.SAFE_METHODS
             or obj.author == request.user
