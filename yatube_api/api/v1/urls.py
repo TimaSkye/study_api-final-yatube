@@ -12,9 +12,9 @@ from api.v1.views import (
 )
 
 v1_router = routers.DefaultRouter()
-v1_router.register(r'posts', PostViewSet)
-v1_router.register(r'groups', GroupViewSet)
-v1_router.register(r'follow', FollowViewSet)
+v1_router.register('posts', PostViewSet)
+v1_router.register('groups', GroupViewSet)
+v1_router.register('follow', FollowViewSet)
 v1_router.register(
     r'posts/(?P<post_id>\d+)/comments',
     CommentViewSet,
